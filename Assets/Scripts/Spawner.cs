@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
@@ -12,6 +13,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] float coinSpawnTime;
     Camera cam = Camera.main;
     Vector2 minBounds, maxBounds;
+    GameObject enemyInstance;
     void Update()
     {
         SpawnEnemy();
@@ -26,15 +28,18 @@ public class Spawner : MonoBehaviour
         {
             case 0://left
                 spawnLoc = cam.ViewportToWorldPoint(new Vector2(0, rngPlace));
-                Instantiate(enemyPrefab, spawnLoc, Quaternion.identity);
+                enemyInstance = Instantiate(enemyPrefab, spawnLoc, Quaternion.identity);
+                enemyInstance.GetComponent<EnemyMove>().SetSpawnSide(rngSide);
                 break;
             case 1://top
                 spawnLoc = cam.ViewportToWorldPoint(new Vector2(rngPlace, 1));
-                Instantiate(enemyPrefab, spawnLoc, Quaternion.identity);
+                enemyInstance = Instantiate(enemyPrefab, spawnLoc, Quaternion.identity);
+                enemyInstance.GetComponent<EnemyMove>().SetSpawnSide(rngSide);
                 break;
             case 2://right
                 spawnLoc = cam.ViewportToWorldPoint(new Vector2(1, rngPlace));
-                Instantiate(enemyPrefab, spawnLoc, Quaternion.identity);
+                enemyInstance = Instantiate(enemyPrefab, spawnLoc, Quaternion.identity);
+                enemyInstance.GetComponent<EnemyMove>().SetSpawnSide(rngSide);
                 break;
             default:
                 Debug.Log("rngSide switch went wrong");
