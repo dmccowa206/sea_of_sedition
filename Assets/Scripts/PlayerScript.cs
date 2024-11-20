@@ -29,9 +29,11 @@ public class PlayerScript : MonoBehaviour
     private void Move()
     {
         Vector2 delta = moveSpeed * Time.deltaTime * rawInput;
-        Vector2 newPos = new();
-        newPos.x = Mathf.Clamp(transform.position.x + delta.x, minBounds.x + paddingLeft, maxBounds.x - paddingRight);
-        newPos.y = Mathf.Clamp(transform.position.y + delta.y, minBounds.y + paddingBot, maxBounds.y - paddingTop);
+        Vector2 newPos = new()
+        {
+            x = Mathf.Clamp(transform.position.x + delta.x, minBounds.x + paddingLeft, maxBounds.x - paddingRight),
+            y = Mathf.Clamp(transform.position.y + delta.y, minBounds.y + paddingBot, maxBounds.y - paddingTop)
+        };
         transform.position = newPos;
     }
 
@@ -52,5 +54,17 @@ public class PlayerScript : MonoBehaviour
         Camera cam = Camera.main;
         minBounds = cam.ViewportToWorldPoint(new Vector2(0,-0.1f));
         maxBounds = cam.ViewportToWorldPoint(new Vector2(1,1));
+    }
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if ( other.tag == "Coin")
+        {
+            //get score and gold
+            Destroy(other);
+        }
+        else if (other.tag == "Enemy")
+        {
+            //damage
+        }
     }
 }
