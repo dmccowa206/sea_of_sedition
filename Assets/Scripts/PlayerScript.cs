@@ -19,7 +19,7 @@ public class PlayerScript : MonoBehaviour
     }
     void Start()
     {
-        InitBounds();
+        InitBounds();//Set playable area by cam bounds
     }
     void Update()
     {
@@ -28,7 +28,7 @@ public class PlayerScript : MonoBehaviour
 
     private void Move()
     {
-        Vector2 delta = moveSpeed * Time.deltaTime * rawInput;
+        Vector2 delta = moveSpeed * Time.deltaTime * rawInput;//move via Input System
         Vector2 newPos = new()
         {
             x = Mathf.Clamp(transform.position.x + delta.x, minBounds.x + paddingLeft, maxBounds.x - paddingRight),
@@ -37,12 +37,11 @@ public class PlayerScript : MonoBehaviour
         transform.position = newPos;
     }
 
-    void OnMove(InputValue value)
+    void OnMove(InputValue value)//get move input
     {
         rawInput = value.Get<Vector2>();
-        // Debug.Log(rawInput);
     }
-    void OnFire(InputValue value)
+    void OnFire(InputValue value)//shoot via input system NOT USABLE YET
     {
         if(shooter != null)
         {
@@ -57,10 +56,10 @@ public class PlayerScript : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D other)
     {
-        if ( other.tag == "Coin")
+        if (other.tag == "Coin")
         {
             //get score and gold
-            Destroy(other);
+            Destroy(other.gameObject);
         }
         else if (other.tag == "Enemy")
         {
