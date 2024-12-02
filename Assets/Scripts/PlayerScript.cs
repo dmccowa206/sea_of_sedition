@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerScript : MonoBehaviour
 {
     Vector2 rawInput;
-    [SerializeField] float moveSpeed = 5f;
+    float moveSpeed;
     [SerializeField] float InvincibilityTime = 3f;
     [SerializeField] float paddingLeft;
     [SerializeField] float paddingRight;
@@ -16,8 +16,9 @@ public class PlayerScript : MonoBehaviour
     Vector2 minBounds, maxBounds, bottomEdge;
     Shooter shooter;
     GameManager gm;
-    bool invincible = true, controllable = true;
-    float invTime = 0f;
+    [SerializeField] bool invincible = true;
+    bool controllable = true;
+    [SerializeField] float invTime = 0f;
     void Awake()
     {
         shooter = GetComponent<Shooter>();
@@ -26,9 +27,11 @@ public class PlayerScript : MonoBehaviour
     void Start()
     {
         InitBounds();//Set playable area by cam bounds
+        moveSpeed = gm.playerSpeed;
     }
     void Update()
     {
+        moveSpeed = gm.playerSpeed;
         Move();
         Survive();
         UpdateOverlay();
@@ -107,6 +110,7 @@ public class PlayerScript : MonoBehaviour
             if (!invincible)
             {
                 gm.hp --;
+                invincible = true;
             }
         }
     }

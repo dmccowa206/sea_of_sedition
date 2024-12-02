@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShopScript : MonoBehaviour
 {
@@ -12,14 +12,29 @@ public class ShopScript : MonoBehaviour
     [SerializeField] int weapon = 10;
     [SerializeField] int speed = 10;
     [SerializeField] int sabotage = 10;
-    [Header("Buttons")]
+    [SerializeField] int damage = 10;
+    [SerializeField] int fireRate = 10;
+
+    [Header("Button Text")]
     [SerializeField] TextMeshProUGUI healBtn;
     [SerializeField] TextMeshProUGUI hpUpBtn;
     [SerializeField] TextMeshProUGUI wepBtn;
+    [SerializeField] TextMeshProUGUI dmgBtn;
+    [SerializeField] TextMeshProUGUI fireRateBtn;
     [SerializeField] TextMeshProUGUI spdBtn;
     [SerializeField] TextMeshProUGUI saboBtn;
+    [Header("Buttons")]
+    [SerializeField] Button healButton;
+    [SerializeField] Button hpUpButton;
+    [SerializeField] Button weaponButton;
+    [SerializeField] Button damageButton;
+    [SerializeField] Button fireRateButton;
+    [SerializeField] Button speedButton;
+    [SerializeField] Button sabotageButton;
+    [SerializeField] Button exitButton;
+    [SerializeField] GameObject upgradeBtns;
     GameManager gm;
-    void Start()
+    void Awake()
     {
         gm = FindObjectOfType<GameManager>();
     }
@@ -27,9 +42,11 @@ public class ShopScript : MonoBehaviour
     {
         healBtn.text = "Heal 1 HP\n" + heal + " Gold";
         hpUpBtn.text = "Increase Max HP\n" + hpUp + " Gold";
-        wepBtn.text = "Upgrade Your Weapons\n" + weapon + " Gold";
+        wepBtn.text = "Add Weapons to Your Ship\n" + weapon + " Gold";
         spdBtn.text = "Increase Your Speed\n" + speed + " Gold";
         saboBtn.text = "Sabotage the Pirates\n" + sabotage + " Gold";
+        dmgBtn.text = "Increase Your Weapon Damage\n" + damage + " Gold";
+        dmgBtn.text = "Increase Your Fire Rate\n" + fireRate + " Gold";
     }
     void OnBuyLife()
     {
@@ -55,14 +72,31 @@ public class ShopScript : MonoBehaviour
         {
             gm.wepLvl ++;
             gm.gold -= weapon;
-            weapon += weapon / 2;
+        }
+    }
+    void OnBuyDamage()
+    {
+        if (gm.gold >= damage)
+        {
+            gm.wepLvl ++;
+            gm.gold -= damage;
+            damage += damage * 2 / 3;
+        }
+    }
+    void OnBuyFireRate()
+    {
+        if (gm.gold >= fireRate)
+        {
+            gm.wepFireRate *= 0.9f;
+            gm.gold -= fireRate;
+            fireRate += fireRate * 3 / 4;
         }
     }
     void OnBuySpeed()
     {
         if (gm.gold >= speed)
         {
-            //playerspeed * 1.1
+            gm.playerSpeed *= 1.1f;
             gm.gold -= speed;
             speed += speed / 2;
         }

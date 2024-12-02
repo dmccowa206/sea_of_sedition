@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
     [Header("Game Parameters")]
     [SerializeField] float difficultyScalor = 0.03333f;
     [SerializeField] TextMeshProUGUI scoreText;
@@ -13,6 +14,21 @@ public class GameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI goldText;
     public float gameTime, difficultyLevel;
     public int score = 0, highScore = 0, hp = 3, gold = 0, wepLvl = 0, hpMax = 3;
+    public float wepFireRate = 5f, playerSpeed = 5f;
+
+    void Awake()
+    {
+        
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
 
     public float GetDifficultyLevel()
     {
