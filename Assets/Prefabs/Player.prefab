@@ -204,11 +204,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e67afce9393321c40ab755a12fa98c4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 6
+  moveSpeed: 5
   paddingLeft: 0
   paddingRight: 0
   paddingTop: 0
   paddingBot: -0.1
+  difficultyScalor: 0.05
+  scoreText: {fileID: 0}
+  highScoreText: {fileID: 0}
+  goldText: {fileID: 0}
 --- !u!114 &4572861083709608905
 MonoBehaviour:
   m_ObjectHideFlags: 0

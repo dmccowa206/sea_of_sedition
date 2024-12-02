@@ -12,10 +12,9 @@ public class Spawner : MonoBehaviour
     [SerializeField] GameObject coinPrefab;
     [SerializeField] float coinSpawnTime;
     bool eSpawn = true, cSpawn = true;
-    float rngPlaceX, rngPlaceY;
+    float rngPlaceX, rngPlaceY, timeLeniency = 0.25f;
     Vector2 spawnLoc, initDest;
     Camera cam;
-    Vector2 minBounds, maxBounds;
     GameObject enemyInstance;
     GameManager gameManager;
     void Awake()
@@ -26,21 +25,21 @@ public class Spawner : MonoBehaviour
     void Update()
     {
         gameManager.gameTime += Time.deltaTime;
-        if (gameManager.gameTime % enemySpawnTime <= 0.2f && eSpawn)
+        if (gameManager.gameTime % enemySpawnTime <= timeLeniency && eSpawn)
         {
             eSpawn = false;
             SpawnEnemy();
         }
-        else if(gameManager.gameTime % enemySpawnTime >= 0.2f)
+        else if(gameManager.gameTime % enemySpawnTime >= timeLeniency)
         {
             eSpawn = true;
         }
-        if (gameManager.gameTime % coinSpawnTime <= 0.2f && cSpawn)
+        if (gameManager.gameTime % coinSpawnTime <= timeLeniency && cSpawn)
         {
             cSpawn = false;
             SpawnCoin();
         }
-        else if(gameManager.gameTime % coinSpawnTime >= 0.2f)
+        else if(gameManager.gameTime % coinSpawnTime >= timeLeniency)
         {
             cSpawn = true;
         }
@@ -73,6 +72,7 @@ public class Spawner : MonoBehaviour
     {
         enemyInstance = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
         enemyInstance.GetComponent<EnemyMove>().SetInitDest(RandomInitDest());
+        InitBounds(enemyInstance);
     }
     Vector2 RandomInitDest()//decide the init dest for enemy here so I dont
     {//need Camera.main in the move script
@@ -80,6 +80,11 @@ public class Spawner : MonoBehaviour
         rngPlaceY = Random.Range(0.3f,0.8f);
         initDest = cam.ViewportToWorldPoint(new Vector2(rngPlaceX, rngPlaceY));
         return initDest;
+    }
+    void InitBounds(GameObject inst)
+    {
+        inst.GetComponent<EnemyMove>().SetMinBounds(cam.ViewportToWorldPoint(new Vector2(-0.15f, -0.15f)));
+        inst.GetComponent<EnemyMove>().SetMaxBounds(cam.ViewportToWorldPoint(new Vector2(1.15f, 1.15f)));
     }
 
     void SpawnCoin()//Spawns a coin at a rnadom place on screen

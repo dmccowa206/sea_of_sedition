@@ -4,58 +4,57 @@ using UnityEngine;
 
 public class EnemyMove : MonoBehaviour
 {
-    private bool rngMove = false;
-    private float timeSinceSpawn = 0;
-    [SerializeField] float initMoveDuration = 2f;
-    [SerializeField] float moveSpeed = 6f;
-    int spawnSide;
+    [SerializeField] float moveSpeed = 3f;
+    [SerializeField] float rngRange = 5f;
     float rngDestX, rngDestY;
-    Vector2 moveDest;
-    bool initFirst = true;
-    public void SetSpawnSide(int side)
-    {
-        spawnSide = side;
-    }public void SetInitDest(Vector2 idest)
+    Vector2 moveDest, minBounds, maxBounds;
+    public void SetInitDest(Vector2 idest)
     {
         moveDest = idest;
+    }
+    public void SetMinBounds(Vector2 minB)
+    {
+        minBounds = minB;
+    }
+    public void SetMaxBounds(Vector2 maxB)
+    {
+        maxBounds = maxB;
     }
 
     void Update()
     {
-        if(rngMove)
-        {
-            MoveRandom();
-        }
-        else
-        {
-            MoveInit(spawnSide);
-            if (timeSinceSpawn >= initMoveDuration)
-            {
-                rngMove = true;
-            }
-        }
+        Move(moveDest);
+        PosCheck();
     }
-    void MoveRandom()
+    void Move(Vector3 dest)
     {
         //rngmove
-    }
-    void MoveInit(int side)
-    {
-        //move in from edge
-        switch (side)
+        float delta = moveSpeed * Time.deltaTime;
+        transform.position = Vector2.MoveTowards(transform.position, dest, delta);
+        if (transform.position == dest)
         {
-            case 0:
-                if(initFirst)
-                {
-                }
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            default:
-                Debug.Log("An invalid side was passed in.");
-                break;
+            rngDestX = Random.Range(-rngRange, rngRange);
+            rngDestY = Random.Range(-rngRange, rngRange);
+            moveDest = new Vector2(rngDestX, rngDestY);
+        }
+    }
+    void PosCheck()
+    {
+        if (transform.position.x < minBounds.x)
+        {
+            Destroy(gameObject);
+        }
+        else if (transform.position.x > maxBounds.x)
+        {
+            Destroy(gameObject);
+        }
+        else if (transform.position.y < minBounds.y)
+        {
+            Destroy(gameObject);
+        }
+        else if (transform.position.y > maxBounds.y)
+        {
+            Destroy(gameObject);
         }
     }
 }
