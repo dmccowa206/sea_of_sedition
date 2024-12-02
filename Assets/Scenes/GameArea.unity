@@ -644,7 +644,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00882f60c929e3641811ccd7fddd7bc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  difficultyScalor: 0.03333
+  scoreText: {fileID: 1260108050}
+  highScoreText: {fileID: 1527904493}
+  goldText: {fileID: 1003141349}
   gameTime: 0
+  difficultyLevel: 0
+  score: 0
+  highScore: 0
+  hp: 3
+  gold: 0
 --- !u!4 &616123646
 Transform:
   m_ObjectHideFlags: 0
@@ -1584,6 +1593,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3651485813620534512, guid: 40fa221e8ef655a46875d0bda40a78ef, type: 3}
+      propertyPath: goldText
+      value: 
+      objectReference: {fileID: 1003141349}
+    - target: {fileID: 3651485813620534512, guid: 40fa221e8ef655a46875d0bda40a78ef, type: 3}
+      propertyPath: scoreText
+      value: 
+      objectReference: {fileID: 1260108050}
+    - target: {fileID: 3651485813620534512, guid: 40fa221e8ef655a46875d0bda40a78ef, type: 3}
+      propertyPath: highScoreText
+      value: 
+      objectReference: {fileID: 1527904493}
+    - target: {fileID: 3651485813620534512, guid: 40fa221e8ef655a46875d0bda40a78ef, type: 3}
+      propertyPath: difficultyScalor
+      value: 0.033333
+      objectReference: {fileID: 0}
     - target: {fileID: 6269715374998828488, guid: 40fa221e8ef655a46875d0bda40a78ef, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

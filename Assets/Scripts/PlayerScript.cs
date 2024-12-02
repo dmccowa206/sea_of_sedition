@@ -8,18 +8,16 @@ public class PlayerScript : MonoBehaviour
 {
     Vector2 rawInput;
     [SerializeField] float moveSpeed = 5f;
+    [SerializeField] float InvincibilityTime = 3f;
     [SerializeField] float paddingLeft;
     [SerializeField] float paddingRight;
     [SerializeField] float paddingTop;
     [SerializeField] float paddingBot;
-    [Header("Game Parameters")]
-    [SerializeField] float difficultyScalor = 0.05f;
-    [SerializeField] TextMeshProUGUI scoreText;
-    [SerializeField] TextMeshProUGUI highScoreText;
-    [SerializeField] TextMeshProUGUI goldText;
-    Vector2 minBounds, maxBounds;
+    Vector2 minBounds, maxBounds, bottomEdge;
     Shooter shooter;
     GameManager gm;
+    bool invincible = true, controllable = true;
+    float invTime = 0f;
     void Awake()
     {
         shooter = GetComponent<Shooter>();
@@ -45,15 +43,36 @@ public class PlayerScript : MonoBehaviour
             y = Mathf.Clamp(transform.position.y + delta.y, minBounds.y + paddingBot, maxBounds.y - paddingTop)
         };
         transform.position = newPos;
+        if (transform.position.y < bottomEdge.y)
+        {
+            gm.LoadShop();
+        }
     }
     void Survive()
     {
-        gm.difficultyLevel += Time.deltaTime * difficultyScalor;
+        gm.difficultyLevel += Time.deltaTime * gm.GetScalor();
+        if (invincible)
+        {
+            invTime += Time.deltaTime;
+            if (invTime >= InvincibilityTime)
+            {
+                invincible = false;
+                invTime = 0;
+            }
+            
+        }
+        if (gm.hp <= 0)
+        {
+            //GameOver
+        }
     }
 
     void OnMove(InputValue value)//get move input
     {
-        rawInput = value.Get<Vector2>();
+        if (controllable)
+        {
+            rawInput = value.Get<Vector2>();
+        }
     }
     void OnFire(InputValue value)//shoot via input system NOT USABLE YET
     {
@@ -67,10 +86,11 @@ public class PlayerScript : MonoBehaviour
         Camera cam = Camera.main;
         minBounds = cam.ViewportToWorldPoint(new Vector2(0,-0.1f));
         maxBounds = cam.ViewportToWorldPoint(new Vector2(1,1));
+        bottomEdge = cam.ViewportToWorldPoint(new Vector2(0,-0.09f));
     }
     void UpdateOverlay()
     {
-
+        gm.UpdateText();
     }
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -84,10 +104,9 @@ public class PlayerScript : MonoBehaviour
         else if (other.tag == "Enemy")
         {
             //damage
-            gm.hp --;
-            if (gm.hp <= 0)
+            if (!invincible)
             {
-                //GameOver
+                gm.hp --;
             }
         }
     }
