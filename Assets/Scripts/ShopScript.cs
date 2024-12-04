@@ -1,19 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ShopScript : MonoBehaviour
 {
-    [Header("Prices")]
-    [SerializeField] int heal = 5;
-    [SerializeField] int hpUp = 15;
-    [SerializeField] int weapon = 10;
-    [SerializeField] int speed = 10;
-    [SerializeField] int sabotage = 10;
-    [SerializeField] int damage = 10;
-    [SerializeField] int fireRate = 10;
 
     [Header("Button Text")]
     [SerializeField] TextMeshProUGUI healBtn;
@@ -23,94 +16,103 @@ public class ShopScript : MonoBehaviour
     [SerializeField] TextMeshProUGUI fireRateBtn;
     [SerializeField] TextMeshProUGUI spdBtn;
     [SerializeField] TextMeshProUGUI saboBtn;
+    [SerializeField] TextMeshProUGUI statusText;
     [Header("Buttons")]
-    [SerializeField] Button healButton;
-    [SerializeField] Button hpUpButton;
+    // [SerializeField] Button healButton;
+    // [SerializeField] Button hpUpButton;
     [SerializeField] Button weaponButton;
-    [SerializeField] Button damageButton;
-    [SerializeField] Button fireRateButton;
-    [SerializeField] Button speedButton;
-    [SerializeField] Button sabotageButton;
-    [SerializeField] Button exitButton;
+    // [SerializeField] Button damageButton;
+    // [SerializeField] Button fireRateButton;
+    // [SerializeField] Button speedButton;
+    // [SerializeField] Button sabotageButton;
+    // [SerializeField] Button exitButton;
     [SerializeField] GameObject upgradeBtns;
     GameManager gm;
-    void Awake()
+    void Start()
     {
-        gm = FindObjectOfType<GameManager>();
+        gm = DontDestroyOnLoadManager.GetGameManager();
     }
     void Update()
     {
-        healBtn.text = "Heal 1 HP\n" + heal + " Gold";
-        hpUpBtn.text = "Increase Max HP\n" + hpUp + " Gold";
-        wepBtn.text = "Add Weapons to Your Ship\n" + weapon + " Gold";
-        spdBtn.text = "Increase Your Speed\n" + speed + " Gold";
-        saboBtn.text = "Sabotage the Pirates\n" + sabotage + " Gold";
-        dmgBtn.text = "Increase Your Weapon Damage\n" + damage + " Gold";
-        dmgBtn.text = "Increase Your Fire Rate\n" + fireRate + " Gold";
+        if (gm.wepLvl == 0)
+        {
+            weaponButton.gameObject.SetActive(true);
+            upgradeBtns.gameObject.SetActive(false);
+        }
+        healBtn.text = "Heal 1 HP\n" + gm.heal + " Gold";
+        hpUpBtn.text = "Increase Max HP\n" + gm.hpUp + " Gold";
+        wepBtn.text = "Add Weapons to Your Ship\n" + gm.weapon + " Gold";
+        spdBtn.text = "Increase Your Speed\n" + gm.speed + " Gold";
+        saboBtn.text = "Sabotage the Pirates\n" + gm.sabotage + " Gold";
+        dmgBtn.text = "Increase Your Weapon Damage\n" + gm.damage + " Gold";
+        fireRateBtn.text = "Increase Your Fire Rate\n" + gm.fireRate + " Gold";
+        statusText.text = "HP: " + gm.hp + " / " + gm.hpMax + "\nGold: " + gm.gold;
     }
-    void OnBuyLife()
+    public void OnBuyLife()
     {
-        if (gm.gold >= heal && gm.hp < gm.hpMax)
+        if (gm.gold >= gm.heal && gm.hp < gm.hpMax)
         {
             gm.hp ++;
-            gm.gold -= heal;
-            heal ++;
+            gm.gold -= gm.heal;
+            gm.heal ++;
         }
     }
-    void OnBuyMaxHP()
+    public void OnBuyMaxHP()
     {
-        if (gm.gold >= hpUp)
+        if (gm.gold >= gm.hpUp)
         {
             gm.hpMax ++;
-            gm.gold -= hpUp;
-            hpUp += hpUp;
+            gm.gold -= gm.hpUp;
+            gm.hpUp += gm.hpUp;
         }
     }
-    void OnBuyWeapon()
+    public void OnBuyWeapon()
     {
-        if (gm.gold >= weapon)
+        if (gm.gold >= gm.weapon)
         {
             gm.wepLvl ++;
-            gm.gold -= weapon;
+            gm.gold -= gm.weapon;
+            weaponButton.gameObject.SetActive(false);
+            upgradeBtns.gameObject.SetActive(true);
         }
     }
-    void OnBuyDamage()
+    public void OnBuyDamage()
     {
-        if (gm.gold >= damage)
+        if (gm.gold >= gm.damage)
         {
             gm.wepLvl ++;
-            gm.gold -= damage;
-            damage += damage * 2 / 3;
+            gm.gold -= gm.damage;
+            gm.damage += gm.damage * 2 / 3;
         }
     }
-    void OnBuyFireRate()
+    public void OnBuyFireRate()
     {
-        if (gm.gold >= fireRate)
+        if (gm.gold >= gm.fireRate)
         {
             gm.wepFireRate *= 0.9f;
-            gm.gold -= fireRate;
-            fireRate += fireRate * 3 / 4;
+            gm.gold -= gm.fireRate;
+            gm.fireRate += gm.fireRate * 3 / 4;
         }
     }
-    void OnBuySpeed()
+    public void OnBuySpeed()
     {
-        if (gm.gold >= speed)
+        if (gm.gold >= gm.speed)
         {
             gm.playerSpeed *= 1.1f;
-            gm.gold -= speed;
-            speed += speed / 2;
+            gm.gold -= gm.speed;
+            gm.speed += gm.speed / 2;
         }
     }
-    void OnSabotage()
+    public void OnSabotage()
     {
-        if (gm.gold >= sabotage)
+        if (gm.gold >= gm.sabotage)
         {
             gm.difficultyLevel --;
-            gm.gold -= sabotage;
-            sabotage += sabotage / 3;
+            gm.gold -= gm.sabotage;
+            gm.sabotage += gm.sabotage / 3;
         }
     }
-    void OnExit()
+    public void OnExit()
     {
         gm.LoadGame();
     }

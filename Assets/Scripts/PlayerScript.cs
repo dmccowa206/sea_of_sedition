@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -19,13 +20,17 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] bool invincible = true;
     bool controllable = true;
     [SerializeField] float invTime = 0f;
+    [SerializeField] TextMeshProUGUI scoreText;
+    [SerializeField] TextMeshProUGUI highScoreText;
+    [SerializeField] TextMeshProUGUI goldText;
     void Awake()
     {
         shooter = GetComponent<Shooter>();
-        gm = FindObjectOfType<GameManager>();
+        gm = DontDestroyOnLoadManager.GetGameManager();
     }
     void Start()
     {
+        gm = DontDestroyOnLoadManager.GetGameManager();
         InitBounds();//Set playable area by cam bounds
         moveSpeed = gm.playerSpeed;
     }
@@ -93,7 +98,7 @@ public class PlayerScript : MonoBehaviour
     }
     void UpdateOverlay()
     {
-        gm.UpdateText();
+        UpdateText();
     }
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -113,5 +118,13 @@ public class PlayerScript : MonoBehaviour
                 invincible = true;
             }
         }
+    }
+    void UpdateText()
+    {
+        // textList = FindObjectsOfType<TextMeshProUGUI>();
+        
+        scoreText.text = gm.score.ToString();
+        highScoreText.text = gm.highScore.ToString();
+        goldText.text = gm.gold.ToString();
     }
 }

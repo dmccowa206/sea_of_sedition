@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Enemy
   - Coin
+  - HiScoreVal
+  - ScoreVal
+  - GoldVal
   layers:
   - Default
   - TransparentFX
