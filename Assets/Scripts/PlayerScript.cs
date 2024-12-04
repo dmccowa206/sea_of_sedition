@@ -23,6 +23,8 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] TextMeshProUGUI highScoreText;
     [SerializeField] TextMeshProUGUI goldText;
+    SpriteRenderer sr;
+    Color tmp;
     void Awake()
     {
         shooter = GetComponent<Shooter>();
@@ -33,6 +35,8 @@ public class PlayerScript : MonoBehaviour
         gm = DontDestroyOnLoadManager.GetGameManager();
         InitBounds();//Set playable area by cam bounds
         moveSpeed = gm.playerSpeed;
+        sr = gameObject.GetComponentInChildren<SpriteRenderer>();
+        tmp = sr.color;
     }
     void Update()
     {
@@ -59,19 +63,24 @@ public class PlayerScript : MonoBehaviour
     void Survive()
     {
         gm.difficultyLevel += Time.deltaTime * gm.GetScalor();
-        if (invincible)
+        if (gm.hp <= 0)
+        {
+            //GameOver
+            controllable = false;
+            rawInput = new Vector2(0f,0f);
+        }
+        else if (invincible)
         {
             invTime += Time.deltaTime;
             if (invTime >= InvincibilityTime)
             {
+                tmp.a = 1f;
+                sr.color = tmp;
                 invincible = false;
                 invTime = 0;
             }
-            
-        }
-        if (gm.hp <= 0)
-        {
-            //GameOver
+            tmp.a *= -1;
+            sr.color = tmp;
         }
     }
 
@@ -84,7 +93,7 @@ public class PlayerScript : MonoBehaviour
     }
     void OnFire(InputValue value)//shoot via input system NOT USABLE YET
     {
-        if(shooter != null)
+        if(shooter != null && controllable)
         {
             shooter.isFiring = value.isPressed;
         }
@@ -126,5 +135,13 @@ public class PlayerScript : MonoBehaviour
         scoreText.text = gm.score.ToString();
         highScoreText.text = gm.highScore.ToString();
         goldText.text = gm.gold.ToString();
+    }
+    public void OnResetClick()
+    {
+        gm.OnResetButton();
+    }
+    public void OnQuit()
+    {
+        gm.LoadMenu();
     }
 }

@@ -59,6 +59,7 @@ public class GameManager : MonoBehaviour
     }
     public void LoadMenu()
     {
+        ResetStats();
         SceneManager.LoadScene("MainMenu");
     }
     public void LoadShop()
@@ -67,14 +68,31 @@ public class GameManager : MonoBehaviour
     }
     public void OnResetButton()
     {
-        score = 0;
-        hp = 3;
-        gold = 0;
+        ResetStats();
         LoadGame();
     }
     public void ExitGame()
     {
         Application.Quit();
         Debug.Log("Exit");
+    }
+    void ResetStats()
+    {
+        score = 0;
+        hp = 3;
+        gold = 0;
+        hpMax = 0;  
+        wepLvl = 0;
+        wepFireRate = 5f;
+        playerSpeed = 5f;
+        gameTime = 0f;
+        difficultyLevel = 0f;
+        heal = 5;
+        hpUp = 15;
+        weapon = 10;
+        speed = 10;
+        sabotage = 10;
+        damage = 10;
+        fireRate = 10;  
     }
 }
