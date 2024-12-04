@@ -65,11 +65,16 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene("Shop");
     }
-    void OnResetButton()
+    public void OnResetButton()
     {
         score = 0;
         hp = 3;
         gold = 0;
         LoadGame();
+    }
+    public void ExitGame()
+    {
+        Application.Quit();
+        Debug.Log("Exit");
     }
 }
