@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public float gameTime, difficultyLevel;
     public int score, highScore, hp, gold, wepLvl, hpMax;
     public float wepFireRate, playerSpeed;
+    int pirateGold = 0;
 
     [Header("Prices")]
     public int heal = 5;
@@ -76,12 +77,21 @@ public class GameManager : MonoBehaviour
         Application.Quit();
         Debug.Log("Exit");
     }
+    public void PirateLoot()
+    {
+        pirateGold ++;
+        if (pirateGold >= 10)
+        {
+            difficultyLevel ++;
+            pirateGold = 0;
+        }
+    }
     void ResetStats()
     {
         score = 0;
         hp = 3;
         gold = 0;
-        hpMax = 0;  
+        hpMax = 3;  
         wepLvl = 0;
         wepFireRate = 5f;
         playerSpeed = 5f;

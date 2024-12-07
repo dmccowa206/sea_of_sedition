@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] TextMeshProUGUI highScoreText;
     [SerializeField] TextMeshProUGUI goldText;
+    [SerializeField] Canvas gameOverOverlay;
+    [SerializeField] Slider hpSlider;
     SpriteRenderer sr;
     Color tmp;
     void Awake()
@@ -66,6 +69,7 @@ public class PlayerScript : MonoBehaviour
         if (gm.hp <= 0)
         {
             //GameOver
+            gameOverOverlay.gameObject.SetActive(true);
             controllable = false;
             rawInput = new Vector2(0f,0f);
         }
@@ -79,8 +83,11 @@ public class PlayerScript : MonoBehaviour
                 invincible = false;
                 invTime = 0;
             }
-            tmp.a *= -1;
-            sr.color = tmp;
+            else
+            {
+                tmp.a *= -1;
+                sr.color = tmp;
+            }
         }
     }
 
@@ -108,6 +115,7 @@ public class PlayerScript : MonoBehaviour
     void UpdateOverlay()
     {
         UpdateText();
+        hpSlider.value = gm.hp / gm.hpMax;
     }
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -138,10 +146,12 @@ public class PlayerScript : MonoBehaviour
     }
     public void OnResetClick()
     {
+        gameOverOverlay.gameObject.SetActive(false);
         gm.OnResetButton();
     }
     public void OnQuit()
     {
+        gameOverOverlay.gameObject.SetActive(false);
         gm.LoadMenu();
     }
 }

@@ -62,6 +62,7 @@ public class ShopScript : MonoBehaviour
         if (gm.gold >= gm.hpUp)
         {
             gm.hpMax ++;
+            gm.hp ++;
             gm.gold -= gm.hpUp;
             gm.hpUp += gm.hpUp;
         }
