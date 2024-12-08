@@ -10,19 +10,19 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     [Header("Game Parameters")]
     [SerializeField] float difficultyScalor = 0.03333f;
+    [Header("Player Stats")]
+    public int hp, hpMax, gold, wepLvl;
+    public float playerSpeed, wepFireRate;
+    [Header("Score")]
+    public int score, highScore;
+    [Header("Game Time Scaling")]
     public float gameTime, difficultyLevel;
-    public int score, highScore, hp, gold, wepLvl, hpMax;
-    public float wepFireRate, playerSpeed;
+    public int enemyWepLvl, goldVal;
+    public float enemySize, enemySpeed;
     int pirateGold = 0;
 
     [Header("Prices")]
-    public int heal = 5;
-    public int hpUp = 15;
-    public int weapon = 10;
-    public int speed = 10;
-    public int sabotage = 10;
-    public int damage = 10;
-    public int fireRate = 10;
+    public int heal, hpUp, weapon, speed, sabotage, damage, fireRate;
 
     void Awake()
     {
@@ -31,14 +31,7 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
             gameObject.DontDestroyOnLoad();
-            score = 0;
-            highScore = 0;
-            hp = 3;
-            hpMax = 3;
-            gold = 0;
-            wepLvl = 0;
-            wepFireRate = 5f;
-            playerSpeed = 5f;
+            ResetStats();
         }
         else
         {
@@ -88,15 +81,23 @@ public class GameManager : MonoBehaviour
     }
     void ResetStats()
     {
-        score = 0;
+        //pc stats
         hp = 3;
+        hpMax = 3; 
         gold = 0;
-        hpMax = 3;  
         wepLvl = 0;
         wepFireRate = 5f;
         playerSpeed = 5f;
+        //score
+        score = 0;
+        //game time and difficulty
         gameTime = 0f;
         difficultyLevel = 0f;
+        goldVal = 1;
+        enemyWepLvl = 0;
+        enemySize = 1f;
+        enemySpeed = 1f;
+        //prices
         heal = 5;
         hpUp = 15;
         weapon = 10;

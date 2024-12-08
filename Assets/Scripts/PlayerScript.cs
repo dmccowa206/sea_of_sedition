@@ -115,7 +115,7 @@ public class PlayerScript : MonoBehaviour
     void UpdateOverlay()
     {
         UpdateText();
-        hpSlider.value = gm.hp / gm.hpMax;
+        hpSlider.value = (float)gm.hp / gm.hpMax;
     }
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -123,16 +123,20 @@ public class PlayerScript : MonoBehaviour
         {
             //get score and gold
             gm.score += 100;
-            gm.gold ++;
+            gm.gold += gm.goldVal;
             Destroy(other.gameObject);
         }
-        else if (other.tag == "Enemy")
+        else if (other.tag == "Enemy" || other.tag == "EnemyBullet")
         {
             //damage
             if (!invincible)
             {
                 gm.hp --;
                 invincible = true;
+            }
+            if (other.tag == "EnemyBullet")
+            {
+                Destroy(other);
             }
         }
     }

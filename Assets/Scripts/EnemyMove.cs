@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyMove : MonoBehaviour
 {
-    [SerializeField] float moveSpeed = 3f;
+    float moveSpeed = 1f;
     [SerializeField] float rngRange = 5f;
     float rngDestX, rngDestY;
     Vector2 moveDest, minBounds, maxBounds;
+    GameManager gm;
     public void SetInitDest(Vector2 idest)
     {
         moveDest = idest;
@@ -20,11 +22,17 @@ public class EnemyMove : MonoBehaviour
     {
         maxBounds = maxB;
     }
+    public void SetSpeed(float spd)
+    {
+        moveSpeed = spd;
+    }
 
     void Update()
     {
+        gm = DontDestroyOnLoadManager.GetGameManager();
         Move(moveDest);
         PosCheck();
+        SetSpeed(gm.enemySpeed);
     }
     void Move(Vector3 dest)
     {
@@ -62,6 +70,7 @@ public class EnemyMove : MonoBehaviour
         {
             //destroy coin and add enemy threat
             Destroy(other.gameObject);
+            gm.PirateLoot();
         }
     }
 }

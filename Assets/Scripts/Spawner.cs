@@ -20,7 +20,7 @@ public class Spawner : MonoBehaviour
     void Awake()
     {
         cam = Camera.main;
-        gameManager = FindObjectOfType<GameManager>();
+        gameManager = DontDestroyOnLoadManager.GetGameManager();
     }
     void Update()
     {
@@ -73,6 +73,8 @@ public class Spawner : MonoBehaviour
         enemyInstance = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
         enemyInstance.GetComponent<EnemyMove>().SetInitDest(RandomInitDest());
         InitBounds(enemyInstance);
+        float size = gameManager.enemySize;
+        enemyInstance.transform.localScale = new (size, size, 1);
     }
     Vector2 RandomInitDest()//decide the init dest for enemy here so I dont
     {//need Camera.main in the move script
