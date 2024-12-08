@@ -11,18 +11,22 @@ public class GameManager : MonoBehaviour
     [Header("Game Parameters")]
     [SerializeField] float difficultyScalor = 0.03333f;
     [Header("Player Stats")]
-    public int hp, hpMax, gold, wepLvl;
+    public int hp;
+    public int hpMax, gold, wepLvl;
     public float playerSpeed, wepFireRate;
     [Header("Score")]
-    public int score, highScore;
+    public int score;
+    public int highScore;
     [Header("Game Time Scaling")]
-    public float gameTime, difficultyLevel;
+    public float gameTime;
+    public float difficultyLevel;
     public int enemyWepLvl, goldVal;
     public float enemySize, enemySpeed;
     int pirateGold = 0;
 
     [Header("Prices")]
-    public int heal, hpUp, weapon, speed, sabotage, damage, fireRate;
+    public int heal;
+    public int hpUp, weapon, speed, sabotage, damage, fireRate;
 
     void Awake()
     {
@@ -86,8 +90,8 @@ public class GameManager : MonoBehaviour
         hpMax = 3; 
         gold = 0;
         wepLvl = 0;
-        wepFireRate = 5f;
-        playerSpeed = 5f;
+        wepFireRate = 3f;
+        playerSpeed = 4f;
         //score
         score = 0;
         //game time and difficulty

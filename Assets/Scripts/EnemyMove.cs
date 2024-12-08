@@ -1,11 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyMove : MonoBehaviour
 {
     float moveSpeed = 1f;
+    int enemyHp = 1;
     [SerializeField] float rngRange = 5f;
     float rngDestX, rngDestY;
     Vector2 moveDest, minBounds, maxBounds;
@@ -26,10 +27,14 @@ public class EnemyMove : MonoBehaviour
     {
         moveSpeed = spd;
     }
+    void Start()
+    {
+        gm = DontDestroyOnLoadManager.GetGameManager();
+        enemyHp = (int)Math.Floor(gm.GetDifficultyLevel() / 5f) + 1;
+    }
 
     void Update()
     {
-        gm = DontDestroyOnLoadManager.GetGameManager();
         Move(moveDest);
         PosCheck();
         SetSpeed(gm.enemySpeed);
@@ -41,8 +46,8 @@ public class EnemyMove : MonoBehaviour
         transform.position = Vector2.MoveTowards(transform.position, dest, delta);
         if (transform.position == dest)
         {
-            rngDestX = Random.Range(-rngRange, rngRange);
-            rngDestY = Random.Range(-rngRange, rngRange);
+            rngDestX = UnityEngine.Random.Range(-rngRange, rngRange);
+            rngDestY = UnityEngine.Random.Range(-rngRange, rngRange);
             moveDest = new Vector2(rngDestX, rngDestY);
         }
     }
@@ -64,13 +69,23 @@ public class EnemyMove : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }void OnTriggerEnter2D(Collider2D other)
+    }
+    void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Coin")
         {
             //destroy coin and add enemy threat
             Destroy(other.gameObject);
             gm.PirateLoot();
+        }
+        else if (other.tag == "PlayerBullet")
+        {
+            enemyHp --;
+            Destroy(other.gameObject);
+            if (enemyHp <= 0)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

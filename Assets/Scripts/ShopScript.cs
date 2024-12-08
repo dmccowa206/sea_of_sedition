@@ -18,14 +18,7 @@ public class ShopScript : MonoBehaviour
     [SerializeField] TextMeshProUGUI saboBtn;
     [SerializeField] TextMeshProUGUI statusText;
     [Header("Buttons")]
-    // [SerializeField] Button healButton;
-    // [SerializeField] Button hpUpButton;
     [SerializeField] Button weaponButton;
-    // [SerializeField] Button damageButton;
-    // [SerializeField] Button fireRateButton;
-    // [SerializeField] Button speedButton;
-    // [SerializeField] Button sabotageButton;
-    // [SerializeField] Button exitButton;
     [SerializeField] GameObject upgradeBtns;
     GameManager gm;
     void Start()
@@ -38,6 +31,11 @@ public class ShopScript : MonoBehaviour
         {
             weaponButton.gameObject.SetActive(true);
             upgradeBtns.gameObject.SetActive(false);
+        }
+        else
+        {
+            weaponButton.gameObject.SetActive(false);
+            upgradeBtns.gameObject.SetActive(true);
         }
         healBtn.text = "Heal 1 HP\n" + gm.heal + " Gold";
         hpUpBtn.text = "Increase Max HP\n" + gm.hpUp + " Gold";

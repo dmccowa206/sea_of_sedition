@@ -69,6 +69,7 @@ public class PlayerScript : MonoBehaviour
         if (gm.hp <= 0)
         {
             //GameOver
+            gm.highScore = gm.score;
             gameOverOverlay.gameObject.SetActive(true);
             controllable = false;
             rawInput = new Vector2(0f,0f);
@@ -136,7 +137,7 @@ public class PlayerScript : MonoBehaviour
             }
             if (other.tag == "EnemyBullet")
             {
-                Destroy(other);
+                Destroy(other.gameObject);
             }
         }
     }

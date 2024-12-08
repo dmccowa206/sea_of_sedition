@@ -9,6 +9,8 @@ TagManager:
   - HiScoreVal
   - ScoreVal
   - GoldVal
+  - EnemyBullet
+  - PlayerBullet
   layers:
   - Default
   - TransparentFX

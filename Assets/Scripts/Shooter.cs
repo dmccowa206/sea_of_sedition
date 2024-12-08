@@ -16,6 +16,7 @@ public class Shooter : MonoBehaviour
     private float fireRateVariance = 0.7f;
     [SerializeField] float aiFireRate = 10f;
     private float fireRate, minFireRate = 1f;
+    Vector3 target;
     void Start()
     {
         gm = DontDestroyOnLoadManager.GetGameManager();
@@ -45,11 +46,19 @@ public class Shooter : MonoBehaviour
     {
         while(true)
         {
+            if (isAI)
+            {
+                target = FindAnyObjectByType<PlayerScript>().gameObject.transform.position - gameObject.transform.position;
+            }
+            else
+            {
+                target = WorldPosition.GetMouseWorldPos() - gameObject.transform.position;
+            }
             GameObject instance = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
             Rigidbody2D rb = instance.GetComponent<Rigidbody2D>();
             if(rb != null)
             {
-                rb.velocity = transform.up * projectileSpd;
+                rb.velocity = target * projectileSpd / 10f;
             }
             if(isAI)
             {

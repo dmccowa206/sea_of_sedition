@@ -24,11 +24,11 @@ public class EnemyScaling : MonoBehaviour
             gm.enemyWepLvl = diffLevel / 10;
             gm.enemySize = (diffLevel/50f) + 1f;
             gm.enemySpeed = diffLevel / 20f + 1.5f;
+            if (diffLevel % 20 == 0)
+            {
+                gm.goldVal++;
+            }
             currentlvl = diffLevel;
-        }
-        if (diffLevel % 20 == 0)
-        {
-            gm.goldVal++;
         }
     }
 }
