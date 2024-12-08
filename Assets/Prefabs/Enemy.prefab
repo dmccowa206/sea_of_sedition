@@ -5008,7 +5008,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e46d8cf8cd389184abf48f32ba115c9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
   rngRange: 5
 --- !u!50 &4398396166750479606
 Rigidbody2D:
@@ -5050,8 +5049,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 2984872506850205435, guid: 58c91c1300c03644a8783cc47af49748, type: 3}
-  projectileSpd: 5
-  projectileLifetime: 5
+  projectileLifetime: 3
   isFiring: 0
   isAI: 1
-  aiFireRate: 10

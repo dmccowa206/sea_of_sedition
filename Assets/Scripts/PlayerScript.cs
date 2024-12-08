@@ -40,6 +40,7 @@ public class PlayerScript : MonoBehaviour
         moveSpeed = gm.playerSpeed;
         sr = gameObject.GetComponentInChildren<SpriteRenderer>();
         tmp = sr.color;
+        Shoot();
     }
     void Update()
     {
@@ -69,7 +70,10 @@ public class PlayerScript : MonoBehaviour
         if (gm.hp <= 0)
         {
             //GameOver
-            gm.highScore = gm.score;
+            if (gm.score > gm.highScore)
+            {
+                gm.highScore = gm.score;
+            }
             gameOverOverlay.gameObject.SetActive(true);
             controllable = false;
             rawInput = new Vector2(0f,0f);
@@ -99,11 +103,21 @@ public class PlayerScript : MonoBehaviour
             rawInput = value.Get<Vector2>();
         }
     }
-    void OnFire(InputValue value)//shoot via input system NOT USABLE YET
+    // void OnFire(InputValue value)//shoot via input system DROPPED FOR AUTOFIRE
+    // {
+    //     if(shooter != null && controllable)
+    //     {
+    //         shooter.isFiring = value.isPressed;
+    //     }
+    // }
+    void Shoot()
     {
         if(shooter != null && controllable)
         {
-            shooter.isFiring = value.isPressed;
+            if (gm.wepLvl >= 1)
+            {
+                shooter.isFiring = true;
+            }
         }
     }
     void InitBounds()

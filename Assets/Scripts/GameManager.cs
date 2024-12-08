@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour
         gold = 0;
         wepLvl = 0;
         wepFireRate = 3f;
-        playerSpeed = 4f;
+        playerSpeed = 3f;
         //score
         score = 0;
         //game time and difficulty

@@ -261,11 +261,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 2984872506850205435, guid: 58c91c1300c03644a8783cc47af49748, type: 3}
-  projectileSpd: 5
-  projectileLifetime: 5
+  projectileLifetime: 3
   isFiring: 0
   isAI: 0
-  aiFireRate: 10
 --- !u!1 &8699009547158181350
 GameObject:
   m_ObjectHideFlags: 0

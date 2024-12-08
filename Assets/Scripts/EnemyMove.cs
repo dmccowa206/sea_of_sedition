@@ -30,7 +30,7 @@ public class EnemyMove : MonoBehaviour
     void Start()
     {
         gm = DontDestroyOnLoadManager.GetGameManager();
-        enemyHp = (int)Math.Floor(gm.GetDifficultyLevel() / 5f) + 1;
+        enemyHp = (int)Math.Floor(gm.GetDifficultyLevel() / 10f) + 1;
     }
 
     void Update()
@@ -80,7 +80,7 @@ public class EnemyMove : MonoBehaviour
         }
         else if (other.tag == "PlayerBullet")
         {
-            enemyHp --;
+            enemyHp -= gm.wepLvl;
             Destroy(other.gameObject);
             if (enemyHp <= 0)
             {

@@ -6,15 +6,15 @@ public class Shooter : MonoBehaviour
 {
     [Header("General")]
     [SerializeField] GameObject projectilePrefab;
-    [SerializeField] float projectileSpd = 5f;
+    [SerializeField] float projectileSpd = 0.4f;
     [SerializeField] float projectileLifetime = 5f;
     Coroutine fireCoroutine;
     [HideInInspector]public bool isFiring;
     GameManager gm;
     [Header("AI")]
     [SerializeField] bool isAI;
-    private float fireRateVariance = 0.7f;
-    [SerializeField] float aiFireRate = 10f;
+    private float fireRateVariance = 1.7f;
+    float aiFireRate = 5f;
     private float fireRate, minFireRate = 1f;
     Vector3 target;
     void Start()
@@ -22,11 +22,12 @@ public class Shooter : MonoBehaviour
         gm = DontDestroyOnLoadManager.GetGameManager();
         if(isAI && gm.enemyWepLvl >= 1)
         {
-            isFiring = true;
+            Invoke("ActivateShooting", 1f);
         }
     }
     void Update()
     {
+        // fireRate = gm.wepFireRate;
         Fire();
     }
 
@@ -58,7 +59,7 @@ public class Shooter : MonoBehaviour
             Rigidbody2D rb = instance.GetComponent<Rigidbody2D>();
             if(rb != null)
             {
-                rb.velocity = target * projectileSpd / 10f;
+                rb.velocity = target * projectileSpd;
             }
             if(isAI)
             {
@@ -69,12 +70,16 @@ public class Shooter : MonoBehaviour
             }
             else
             {
-                fireRate = gm.fireRate;
+                fireRate = gm.wepFireRate;
                 instance.tag = "PlayerBullet";
             }
             Destroy(instance, projectileLifetime);
             // audioPlayer.PlayShootingClip();
             yield return new WaitForSeconds(fireRate);
         }
+    }
+    void ActivateShooting()
+    {
+        isFiring = true;
     }
 }
