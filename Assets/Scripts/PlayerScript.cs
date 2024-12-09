@@ -18,6 +18,8 @@ public class PlayerScript : MonoBehaviour
     Vector2 minBounds, maxBounds, bottomEdge;
     Shooter shooter;
     GameManager gm;
+    AudioPlayer audioPlayer;
+    CameraShake camShake;
     [SerializeField] bool invincible = true;
     bool controllable = true;
     [SerializeField] float invTime = 0f;
@@ -36,6 +38,8 @@ public class PlayerScript : MonoBehaviour
     void Start()
     {
         gm = DontDestroyOnLoadManager.GetGameManager();
+        audioPlayer = FindObjectOfType<AudioPlayer>();
+        camShake = Camera.main.GetComponent<CameraShake>();
         InitBounds();//Set playable area by cam bounds
         moveSpeed = gm.playerSpeed;
         sr = gameObject.GetComponentInChildren<SpriteRenderer>();
@@ -140,6 +144,7 @@ public class PlayerScript : MonoBehaviour
             gm.score += 100;
             gm.gold += gm.goldVal;
             Destroy(other.gameObject);
+            audioPlayer.PlayGoldClip();
         }
         else if (other.tag == "Enemy" || other.tag == "EnemyBullet")
         {
@@ -148,6 +153,8 @@ public class PlayerScript : MonoBehaviour
             {
                 gm.hp --;
                 invincible = true;
+                audioPlayer.PlayPlayerHitClip();
+                ShakeCam();
             }
             if (other.tag == "EnemyBullet")
             {
@@ -172,5 +179,12 @@ public class PlayerScript : MonoBehaviour
     {
         gameOverOverlay.gameObject.SetActive(false);
         gm.LoadMenu();
+    }
+    void ShakeCam()
+    {
+        if(camShake != null)
+        {
+            camShake.Play();
+        }
     }
 }

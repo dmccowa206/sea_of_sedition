@@ -21,9 +21,11 @@ public class ShopScript : MonoBehaviour
     [SerializeField] Button weaponButton;
     [SerializeField] GameObject upgradeBtns;
     GameManager gm;
+    AudioPlayer audioPlayer;
     void Start()
     {
         gm = DontDestroyOnLoadManager.GetGameManager();
+        audioPlayer = FindAnyObjectByType<AudioPlayer>();
     }
     void Update()
     {
@@ -53,6 +55,7 @@ public class ShopScript : MonoBehaviour
             gm.hp ++;
             gm.gold -= gm.heal;
             gm.heal ++;
+            audioPlayer.PlayBuyClip();
         }
     }
     public void OnBuyMaxHP()
@@ -63,6 +66,7 @@ public class ShopScript : MonoBehaviour
             gm.hp ++;
             gm.gold -= gm.hpUp;
             gm.hpUp += gm.hpUp;
+            audioPlayer.PlayBuyClip();
         }
     }
     public void OnBuyWeapon()
@@ -71,6 +75,7 @@ public class ShopScript : MonoBehaviour
         {
             gm.wepLvl ++;
             gm.gold -= gm.weapon;
+            audioPlayer.PlayBuyClip();
             weaponButton.gameObject.SetActive(false);
             upgradeBtns.gameObject.SetActive(true);
         }
@@ -82,6 +87,7 @@ public class ShopScript : MonoBehaviour
             gm.wepLvl ++;
             gm.gold -= gm.damage;
             gm.damage += gm.damage * 2 / 3;
+            audioPlayer.PlayBuyClip();
         }
     }
     public void OnBuyFireRate()
@@ -91,6 +97,7 @@ public class ShopScript : MonoBehaviour
             gm.wepFireRate *= 0.9f;
             gm.gold -= gm.fireRate;
             gm.fireRate += gm.fireRate * 3 / 4;
+            audioPlayer.PlayBuyClip();
         }
     }
     public void OnBuySpeed()
@@ -100,6 +107,7 @@ public class ShopScript : MonoBehaviour
             gm.playerSpeed *= 1.1f;
             gm.gold -= gm.speed;
             gm.speed += gm.speed / 2;
+            audioPlayer.PlayBuyClip();
         }
     }
     public void OnSabotage()
@@ -109,6 +117,7 @@ public class ShopScript : MonoBehaviour
             gm.difficultyLevel --;
             gm.gold -= gm.sabotage;
             gm.sabotage += gm.sabotage / 3;
+            audioPlayer.PlayBuyClip();
         }
     }
     public void OnExit()

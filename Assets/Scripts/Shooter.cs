@@ -17,6 +17,7 @@ public class Shooter : MonoBehaviour
     float aiFireRate = 5f;
     private float fireRate, minFireRate = 1f;
     Vector3 target;
+    AudioPlayer audioPlayer;
     void Start()
     {
         gm = DontDestroyOnLoadManager.GetGameManager();
@@ -24,6 +25,7 @@ public class Shooter : MonoBehaviour
         {
             Invoke("ActivateShooting", 1f);
         }
+        audioPlayer = FindAnyObjectByType<AudioPlayer>();
     }
     void Update()
     {
@@ -74,7 +76,7 @@ public class Shooter : MonoBehaviour
                 instance.tag = "PlayerBullet";
             }
             Destroy(instance, projectileLifetime);
-            // audioPlayer.PlayShootingClip();
+            audioPlayer.PlayShootingClip();
             yield return new WaitForSeconds(fireRate);
         }
     }
