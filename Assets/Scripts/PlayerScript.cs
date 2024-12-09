@@ -30,6 +30,7 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] Slider hpSlider;
     SpriteRenderer sr;
     Color tmp;
+    bool gameOver;
     void Awake()
     {
         shooter = GetComponent<Shooter>();
@@ -45,13 +46,17 @@ public class PlayerScript : MonoBehaviour
         sr = gameObject.GetComponentInChildren<SpriteRenderer>();
         tmp = sr.color;
         Shoot();
+        gameOver = false;
     }
     void Update()
     {
-        moveSpeed = gm.playerSpeed;
-        Move();
-        Survive();
-        UpdateOverlay();
+        if (!gameOver)
+        {
+            moveSpeed = gm.playerSpeed;
+            Move();
+            Survive();
+            UpdateOverlay();
+        }
     }
 
     private void Move()
@@ -74,12 +79,16 @@ public class PlayerScript : MonoBehaviour
         if (gm.hp <= 0)
         {
             //GameOver
+            gameOver = true;
+            tmp.a = 1f;
+            sr.color = tmp;
             if (gm.score > gm.highScore)
             {
                 gm.highScore = gm.score;
             }
             gameOverOverlay.gameObject.SetActive(true);
             controllable = false;
+            shooter.isFiring = false;
             rawInput = new Vector2(0f,0f);
         }
         else if (invincible)
@@ -155,6 +164,7 @@ public class PlayerScript : MonoBehaviour
                 invincible = true;
                 audioPlayer.PlayPlayerHitClip();
                 ShakeCam();
+                shooter.PlayHitFX();
             }
             if (other.tag == "EnemyBullet")
             {

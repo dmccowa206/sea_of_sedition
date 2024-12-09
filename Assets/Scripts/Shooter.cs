@@ -8,6 +8,7 @@ public class Shooter : MonoBehaviour
     [SerializeField] GameObject projectilePrefab;
     [SerializeField] float projectileSpd = 0.4f;
     [SerializeField] float projectileLifetime = 5f;
+    [SerializeField] ParticleSystem hitFX;
     Coroutine fireCoroutine;
     [HideInInspector]public bool isFiring;
     GameManager gm;
@@ -83,5 +84,13 @@ public class Shooter : MonoBehaviour
     void ActivateShooting()
     {
         isFiring = true;
+    }
+    public void PlayHitFX()
+    {
+        if(hitFX != null)
+        {
+            ParticleSystem instance = Instantiate(hitFX, gameObject.transform.position, Quaternion.identity);
+            Destroy(instance.gameObject, instance.main.duration + instance.main.startLifetime.constantMax);
+        }
     }
 }

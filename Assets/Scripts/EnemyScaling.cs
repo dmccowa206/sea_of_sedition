@@ -11,6 +11,8 @@ public class EnemyScaling : MonoBehaviour
     void Start()
     {
         gm = DontDestroyOnLoadManager.GetGameManager();
+        diffLevel = (int)Math.Floor(gm.GetDifficultyLevel());
+        EnemyScale();
     }
     void Update()
     {
@@ -21,14 +23,19 @@ public class EnemyScaling : MonoBehaviour
         diffLevel = (int)Math.Floor(gm.GetDifficultyLevel());
         if (diffLevel > currentlvl)
         {
-            gm.enemyWepLvl = diffLevel / 10;
-            gm.enemySize = (diffLevel/50f) + 1f;
-            gm.enemySpeed = diffLevel / 30f + 1.5f;
+            EnemyScale();
             if (diffLevel % 10 == 0)
             {
                 gm.goldVal++;
             }
             currentlvl = diffLevel;
         }
+    }
+    void EnemyScale()
+    {
+        
+        gm.enemyWepLvl = diffLevel / 10;
+        gm.enemySize = (diffLevel/50f) + 1f;
+        gm.enemySpeed = diffLevel / 30f + 1.5f;
     }
 }

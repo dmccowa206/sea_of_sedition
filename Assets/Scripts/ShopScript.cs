@@ -114,7 +114,11 @@ public class ShopScript : MonoBehaviour
     {
         if (gm.gold >= gm.sabotage)
         {
-            gm.difficultyLevel --;
+            gm.difficultyLevel -= 5;
+            if (gm.difficultyLevel < 0)
+            {
+                gm.difficultyLevel = 0;
+            }
             gm.gold -= gm.sabotage;
             gm.sabotage += gm.sabotage / 3;
             audioPlayer.PlayBuyClip();

@@ -12,6 +12,7 @@ public class EnemyMove : MonoBehaviour
     Vector2 moveDest, minBounds, maxBounds;
     GameManager gm;
     AudioPlayer audioPlayer;
+    Shooter shooter;
     public void SetInitDest(Vector2 idest)
     {
         moveDest = idest;
@@ -33,6 +34,7 @@ public class EnemyMove : MonoBehaviour
         gm = DontDestroyOnLoadManager.GetGameManager();
         enemyHp = (int)Math.Floor(gm.GetDifficultyLevel() / 10f) + 1;
         audioPlayer = FindAnyObjectByType<AudioPlayer>();
+        shooter = FindObjectOfType<Shooter>();
     }
 
     void Update()
@@ -85,6 +87,7 @@ public class EnemyMove : MonoBehaviour
             enemyHp -= gm.wepLvl;
             Destroy(other.gameObject);
             audioPlayer.PlayEnemyHitClip();
+            shooter.PlayHitFX();
             if (enemyHp <= 0)
             {
                 Destroy(gameObject);
