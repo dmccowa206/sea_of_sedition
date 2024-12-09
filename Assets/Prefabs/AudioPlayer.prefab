@@ -142,12 +142,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shootClip: {fileID: 8300000, guid: 7d5f073fd179f05459a225db657b0007, type: 3}
-  shootVol: 1
+  shootVol: 0.5
   playerClip: {fileID: 8300000, guid: e047f8b37b433234aba83731a63d0eb2, type: 3}
-  pVol: 1
+  pVol: 0.55
   enemyClip: {fileID: 8300000, guid: 83308248e8206b14f9272c3b6e986891, type: 3}
   eVol: 1
   goldClip: {fileID: 8300000, guid: c669a133bcda3fd40a3676590a6051a6, type: 3}
-  goldVol: 1
+  goldVol: 0.7
   buyClip: {fileID: 8300000, guid: 95f49798439484d4693901be15226c94, type: 3}
   buyVol: 1

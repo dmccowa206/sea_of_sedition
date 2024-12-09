@@ -104,7 +104,14 @@ public class ShopScript : MonoBehaviour
     {
         if (gm.gold >= gm.speed)
         {
-            gm.playerSpeed *= 1.1f;
+            if ( gm.playerSpeed * 1.1f < 0.5f)
+            {
+                gm.playerSpeed *= 1.1f;
+            }
+            else
+            {
+                gm.playerSpeed += 0.5f;
+            }
             gm.gold -= gm.speed;
             gm.speed += gm.speed / 2;
             audioPlayer.PlayBuyClip();

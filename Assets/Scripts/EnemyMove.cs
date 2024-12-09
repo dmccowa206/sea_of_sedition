@@ -13,6 +13,7 @@ public class EnemyMove : MonoBehaviour
     GameManager gm;
     AudioPlayer audioPlayer;
     Shooter shooter;
+    SpriteRenderer sr;
     public void SetInitDest(Vector2 idest)
     {
         moveDest = idest;
@@ -35,6 +36,7 @@ public class EnemyMove : MonoBehaviour
         enemyHp = (int)Math.Floor(gm.GetDifficultyLevel() / 10f) + 1;
         audioPlayer = FindAnyObjectByType<AudioPlayer>();
         shooter = FindObjectOfType<Shooter>();
+        sr = gameObject.GetComponentInChildren<SpriteRenderer>();
     }
 
     void Update()
@@ -46,6 +48,14 @@ public class EnemyMove : MonoBehaviour
     void Move(Vector3 dest)
     {
         //rngmove
+        if (transform.position.x < dest.x)
+        {
+            sr.flipX = true;
+        }
+        else
+        {
+            sr.flipX = false;
+        }
         float delta = moveSpeed * Time.deltaTime;
         transform.position = Vector2.MoveTowards(transform.position, dest, delta);
         if (transform.position == dest)

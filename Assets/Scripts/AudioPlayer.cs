@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//CHANGE THE AUDIO CLIPS AT SOME POINT
 public class AudioPlayer : MonoBehaviour
 {
     [Header("Shooting")]

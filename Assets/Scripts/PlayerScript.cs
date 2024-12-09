@@ -26,6 +26,7 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] TextMeshProUGUI highScoreText;
     [SerializeField] TextMeshProUGUI goldText;
+    [SerializeField] TextMeshProUGUI GameOverText;
     [SerializeField] Canvas gameOverOverlay;
     [SerializeField] Slider hpSlider;
     SpriteRenderer sr;
@@ -67,6 +68,14 @@ public class PlayerScript : MonoBehaviour
             x = Mathf.Clamp(transform.position.x + delta.x, minBounds.x + paddingLeft, maxBounds.x - paddingRight),
             y = Mathf.Clamp(transform.position.y + delta.y, minBounds.y + paddingBot, maxBounds.y - paddingTop)
         };
+        if (transform.position.x < newPos.x)
+        {
+            sr.flipX = false;
+        }
+        else
+        {
+            sr.flipX = true;
+        }
         transform.position = newPos;
         if (transform.position.y < bottomEdge.y)
         {
@@ -87,8 +96,10 @@ public class PlayerScript : MonoBehaviour
                 gm.highScore = gm.score;
             }
             gameOverOverlay.gameObject.SetActive(true);
+            GameOverText.text = "You managed to survive for " +
+                (int)gm.gameTime + " seconds and achieved a score of\n" + gm.score;
             controllable = false;
-            shooter.isFiring = false;
+            Shoot();
             rawInput = new Vector2(0f,0f);
         }
         else if (invincible)
@@ -131,6 +142,10 @@ public class PlayerScript : MonoBehaviour
             {
                 shooter.isFiring = true;
             }
+        }
+        else
+        {
+            shooter.isFiring = false;
         }
     }
     void InitBounds()
